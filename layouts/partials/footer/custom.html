@@ -1,0 +1,271 @@
+<!-- APlayer Dependencies -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
+<!-- PJAX Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+
+<!-- Topbar Dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/topbar@0.1.3/topbar.min.js"></script>
+
+<!-- Styles -->
+<style>
+    /* Table of Contents: Hide sub-levels by default */
+    #TableOfContents ul ul,
+    #TableOfContents ol ul,
+    #TableOfContents ul ol,
+    #TableOfContents ol ol {
+        display: none;
+    }
+
+    #TableOfContents .open {
+        display: block;
+    }
+
+    /* Back to Top Button */
+    #backTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        z-index: 99;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-image: url({{ (resources.Get "icons/backTop.svg").Permalink }});
+        background-size: contain;
+        background-repeat: no-repeat;
+        transition: transform 0.3s ease;
+    }
+
+    #backTopBtn:hover {
+        transform: scale(1.2);
+    }
+
+    /* Global Button & Widget Hover Effect */
+    button, 
+    .widget, 
+    .menu-social li a,
+    .site-avatar img {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    button:hover, 
+    .menu-social li a:hover,
+    .site-avatar img:hover {
+        transform: scale(1.1);
+    }
+
+    .widget:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+    /* Article List & Search Result Hover Effect */
+    .article-list--compact article,
+    .search-result--list article {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .article-list--compact article:hover,
+    .search-result--list article:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<!-- HTML Elements -->
+<div id="aplayer"></div>
+
+<!-- Scripts -->
+<script>
+        // --- Topbar Config ---
+        topbar.config({
+            barColors: {
+                "0": "rgba(255, 255, 255, 1)",
+                "1.0": "rgba(0, 149, 234, 1)"
+            }
+        })
+
+        // --- PJAX Initialization ---
+        var pjax = new Pjax({
+            selectors: [
+                ".main-container",
+                "title"
+            ]
+        })
+
+        // Handle PJAX Response (Fix Article Style)
+        pjax._handleResponse = pjax.handleResponse;
+        pjax.handleResponse = function (responseText, request, href, options) {
+            if (request.responseText.match("<html")) {
+                if (responseText) {
+                    let newDom = new DOMParser().parseFromString(responseText, "text/html");
+                    let bodyClass = newDom.body.className;
+                    document.body.setAttribute("class", bodyClass)
+                }
+                pjax._handleResponse(responseText, request, href, options);
+            } else {
+                // handle non-HTML response here
+            }
+        }
+
+        // PJAX Events
+        document.addEventListener("pjax:send", () => {
+            topbar.show();
+        })
+
+        document.addEventListener("pjax:complete", () => {
+            topbar.hide();
+
+            // Re-init Stack Theme Scripts
+            if (window.Stack && window.Stack.init) {
+                window.Stack.init();
+            }
+
+            // Re-render KaTeX
+            renderKaTeX();
+
+            // Re-load/Reset Disqus
+            handleDisqus();
+        })
+
+        // --- KaTeX Logic ---
+        async function renderKaTeX() {
+            let katex = document.querySelector(".math-katex");
+            if (!katex) return;
+
+            while (typeof renderMathInElement !== "function") {
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ],
+                ignoredClasses: ["gist"]
+            });
+        }
+
+        // --- Disqus Logic ---
+        function handleDisqus() {
+            const commentDiv = document.querySelector(".comment");
+            if (!commentDiv) return;
+
+            if (typeof DISQUS !== "undefined") {
+                DISQUS.reset({
+                    reload: true,
+                    config: function () {
+                        this.page.identifier = window.location.pathname;
+                        this.page.url = window.location.href;
+                    }
+                });
+            } else {
+                // If DISQUS is not loaded, we might need to load it manually.
+                // However, since we are using Hugo internal template, it might be tricky.
+                // For now, let's assume it loads on the first page if it has comments.
+                // If the user navigates from a page without comments to one with comments, 
+                // we might need to inject the script.
+                // But since we don't have the shortname easily accessible here without parsing,
+                // we rely on the initial load or the provider template.
+                // If the provider template script doesn't run, we are in trouble.
+                // Let's try to find the script in the new content and execute it?
+                // The blog post suggests wrapping in .js-Pjax and executing.
+                // But we can't easily wrap Hugo's internal template.
+            }
+        }
+
+        // --- APlayer Initialization ---
+        const ap = new APlayer({
+            container: document.getElementById("aplayer"),
+            audio: [
+                {
+                    name: "Tic! Tac! Toe!",
+                    artist: "TAK x Corbin",
+                    url: "/music/01 TAK x Corbin - Tic! Tac! Toe!.mp3",
+                    cover: "/img/cover.jpg"
+                },
+                {
+                    name: "Bambi - DJMAX Edit -",
+                    artist: "DAZBEE",
+                    url: "/music/02 DAZBEE - Bambi - DJMAX Edit -.mp3",
+                    cover: "/img/cover.jpg"
+                }
+            ],
+            fixed: true
+        });
+
+        // --- APlayer State Persistence ---
+        window.addEventListener("beforeunload", () => {
+            const playInfo = {
+                index: ap.list.index,
+                currentTime: ap.audio.currentTime,
+                paused: ap.paused
+            };
+            localStorage.setItem("playInfo", JSON.stringify(playInfo));
+        });
+
+        window.addEventListener("load", () => {
+            const playInfo = JSON.parse(localStorage.getItem("playInfo"));
+            if (!playInfo) return;
+
+            ap.list.switch(playInfo.index);
+            setTimeout(() => {
+                ap.seek(playInfo.currentTime);
+                if (!playInfo.paused) {
+                    ap.play();
+                }
+            }, 500);
+        });
+
+        // --- TOC Auto-Collapse Logic ---
+        function initTocHide() {
+            const toc = document.querySelector(".widget--toc");
+            if (!toc) return;
+
+            window.addEventListener("scroll", function () {
+                const openUls = document.querySelectorAll(".open");
+                openUls.forEach(ul => ul.classList.remove("open"));
+
+                const currentLi = document.querySelector(".active-class");
+                if (!currentLi) return;
+
+                if (currentLi.children.length > 1) {
+                    currentLi.children[1].classList.add("open");
+                }
+
+                let ul = currentLi.parentElement;
+                while (ul && (ul.tagName === "UL" || ul.tagName === "OL")) {
+                    ul.classList.add("open");
+                    ul = ul.parentElement.parentElement;
+                }
+            });
+        }
+        initTocHide();
+
+        // --- Back to Top Button Logic ---
+        function initScrollTop() {
+        // Remove existing button if any (to prevent duplicates)
+        const existingBtn = document.getElementById("backTopBtn");
+        if (existingBtn) existingBtn.remove();
+
+        const btn = document.createElement("div");
+        btn.id = "backTopBtn";
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+        
+        // Append to body to ensure visibility on all pages
+        document.body.appendChild(btn);
+
+        window.addEventListener("scroll", function() {
+                } else {
+                    btn.style.display = "none";
+                }
+            });
+        }
+        initScrollTop();
+
+
+    </script>
