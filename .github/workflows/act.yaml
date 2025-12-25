@@ -29,7 +29,7 @@ jobs:
         - name: Deploy Web
           uses: peaceiris/actions-gh-pages@v4
           with:
-              github_token: ${{ secrets.TOKEN }}
-              publish_branch: collapse179/collapse179.github.io
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              publish_branch: gh-pages
               publish_dir: ./public
               commit_message: auto deploy
