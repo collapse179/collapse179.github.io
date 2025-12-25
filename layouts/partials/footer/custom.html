@@ -46,7 +46,7 @@
     .widget, 
     .menu-social li a,
     .site-avatar img {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
     }
     
     button:hover, 
@@ -61,16 +61,19 @@
         z-index: 10;
     }
 
-    /* Article List & Search Result Hover Effect */
+    /* Article List, Tile & Search Result Hover Effect */
     .article-list--compact article,
+    .article-list--tile article,
     .search-result--list article {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
     }
 
     .article-list--compact article:hover,
+    .article-list--tile article:hover,
     .search-result--list article:hover {
         transform: scale(1.02);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        z-index: 10;
     }
 </style>
 

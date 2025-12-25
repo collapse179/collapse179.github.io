@@ -14,8 +14,7 @@ comments: true
 这是我的链接格式
 
 ```yaml
-links:
-  - title: Collapse179
+    title: Collapse179
     description: Try my 120%
     website: https://collapse179.github.io/
     image: https://collapse179.github.io/img/avatar.png
