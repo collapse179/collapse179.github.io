@@ -125,7 +125,60 @@
 
             // Re-render KaTeX
             renderKaTeX();
+
+            // Re-load Giscus
+            loadGiscus();
         })
+
+        // --- Giscus Logic ---
+        function loadGiscus() {
+            const container = document.querySelector('.giscus-container');
+            if (!container) return;
+
+            const script = document.createElement('script');
+            script.src = "https://giscus.app/client.js";
+            
+            // Determine current theme
+            const isDark = document.documentElement.dataset.scheme === 'dark';
+            const theme = isDark ? container.dataset.themeDark : container.dataset.themeLight;
+
+            for (const attr of container.attributes) {
+                if (attr.name.startsWith('data-')) {
+                    script.setAttribute(attr.name, attr.value);
+                }
+            }
+            
+            // Set dynamic theme
+            script.setAttribute('data-theme', theme);
+
+            script.crossOrigin = "anonymous";
+            script.async = true;
+            
+            container.innerHTML = '';
+            container.appendChild(script);
+        }
+
+        // Listen for theme changes
+        window.addEventListener('onColorSchemeChange', (e) => {
+            const container = document.querySelector('.giscus-container');
+            if (!container) return;
+
+            const newTheme = e.detail === 'dark' ? container.dataset.themeDark : container.dataset.themeLight;
+            
+            const iframe = document.querySelector('iframe.giscus-frame');
+            if (iframe) {
+                iframe.contentWindow.postMessage({ 
+                    giscus: { 
+                        setConfig: { 
+                            theme: newTheme 
+                        } 
+                    } 
+                }, 'https://giscus.app');
+            }
+        });
+
+        // Initial load
+        loadGiscus();
 
         // --- KaTeX Logic ---
         async function renderKaTeX() {

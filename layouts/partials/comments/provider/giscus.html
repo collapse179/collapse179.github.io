@@ -1,0 +1,17 @@
+{{- with .Site.Params.comments.giscus -}}
+<div class="giscus-container"
+    data-repo="{{- .repo -}}"
+    data-repo-id="{{- .repoID -}}"
+    data-category="{{- .category -}}"
+    data-category-id="{{- .categoryID -}}"
+    data-mapping="{{- default `title` .mapping -}}"
+    data-strict="{{- default 0 .strict -}}"
+    data-reactions-enabled="{{- default 1 .reactionsEnabled -}}"
+    data-emit-metadata="{{- default 0 .emitMetadata -}}"
+    data-input-position="{{- default `top` .inputPosition -}}"
+    data-theme-light="{{- default `light` .lightTheme -}}"
+    data-theme-dark="{{- default `dark` .darkTheme -}}"
+    data-lang="{{- default `en` .lang -}}"
+    data-loading="{{- .loading -}}"
+></div>
+{{- end -}}
