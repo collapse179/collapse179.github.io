@@ -13,9 +13,6 @@ hasCJKLanguage: true
 
 
 services:
-    # Change it to your Disqus shortname before using
-    disqus:
-        shortname: "hugo-theme-stack"
     # GA Tracking ID
     googleAnalytics:
         id:
@@ -65,7 +62,21 @@ params:
 
     comments:
         enabled: true
-        provider: disqus
+        provider: giscus
+
+        giscus:
+            repo: collapse179/collapse179.github.io
+            repoID: R_kgDOQuXfvg
+            category: Announcements
+            categoryID: DIC_kwDOQuXfvs4C0Ok6
+            mapping: title
+            strict: 0
+            reactionsEnabled: 1
+            emitMetadata: 0
+            inputPosition: top
+            lightTheme: light
+            darkTheme: dark
+            lang: zh-CN
 
         disqusjs:
             shortname:

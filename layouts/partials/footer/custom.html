@@ -125,9 +125,6 @@
 
             // Re-render KaTeX
             renderKaTeX();
-
-            // Re-load/Reset Disqus
-            handleDisqus();
         })
 
         // --- KaTeX Logic ---
@@ -148,34 +145,6 @@
                 ],
                 ignoredClasses: ["gist"]
             });
-        }
-
-        // --- Disqus Logic ---
-        function handleDisqus() {
-            const commentDiv = document.querySelector(".comment");
-            if (!commentDiv) return;
-
-            if (typeof DISQUS !== "undefined") {
-                DISQUS.reset({
-                    reload: true,
-                    config: function () {
-                        this.page.identifier = window.location.pathname;
-                        this.page.url = window.location.href;
-                    }
-                });
-            } else {
-                // If DISQUS is not loaded, we might need to load it manually.
-                // However, since we are using Hugo internal template, it might be tricky.
-                // For now, let's assume it loads on the first page if it has comments.
-                // If the user navigates from a page without comments to one with comments, 
-                // we might need to inject the script.
-                // But since we don't have the shortname easily accessible here without parsing,
-                // we rely on the initial load or the provider template.
-                // If the provider template script doesn't run, we are in trouble.
-                // Let's try to find the script in the new content and execute it?
-                // The blog post suggests wrapping in .js-Pjax and executing.
-                // But we can't easily wrap Hugo's internal template.
-            }
         }
 
         // --- APlayer Initialization ---
