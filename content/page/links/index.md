@@ -5,6 +5,16 @@ links:
   #   description: Creating a new art form with bugs(XD)
   #   website: https://buger404.github.io
   #   image: buger404.jpg
+  - title: Elainafan's blog
+    description: 只因"现在"深爱其中
+    website: https://www.elainafan.one/
+    image: https://www.elainafan.one/avatars/elainafan.jpg
+  - title: Anfsity
+    description: There is a reason
+    website: https://www.anfstiy.me/
+    image: https://www.anfstiy.me/img/avatar_hu0e8ba48a24970c7658943dd270c9a735_6298047_300x0_resize_box_3.png
+
+
 
 comments: true
 ---
