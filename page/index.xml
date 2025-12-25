@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on Collapse179's Blog</title><link>https://collapse179.github.io/page/</link><description>Recent content in Pages on Collapse179's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://collapse179.github.io/page/index.xml" rel="self" type="application/rss+xml"/><item><title>关于我</title><link>https://collapse179.github.io/about/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://collapse179.github.io/about/</guid><description>&lt;h2 id="关于我"&gt;关于我
+&lt;/h2&gt;&lt;p&gt;你好！我是 Collapse179。有些人会叫我Collapse，也有些人会叫我吸圈棍棍，还有一部分人会叫我179, ANYWAY：你觉得怎么顺口就可以怎么叫我&lt;/p&gt;
+&lt;p&gt;现就读于ZJNU，但马上就要毕业了，是个在准备春招的菜鸡，准备主攻游戏客户端&lt;/p&gt;
+&lt;p&gt;搭建这个博客主要有三个目的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;想认识一些新朋友交流&lt;/li&gt;
+&lt;li&gt;这个网站对于我来说是一碟醋，所以我还在包一些饺子（等饺子包出来就会打上饺子的TAG）。欢迎大伙等待新鲜饺子的出炉&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;方便春招的时候各大企业更好的知道我有多菜&lt;/del&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="关于本站"&gt;关于本站
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;头像是DJMAX的DIEIN酱(为什么加酱请看VL4雌大鬼耶梦加得剧情)&lt;/li&gt;
+&lt;li&gt;博客主要收录之前散落在本人写在Notion或者其他地方的记录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="写到最后"&gt;写到最后
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;GO LISTEN TAK:&lt;a class="link" href="https://zero925.notion.site/TAK-WORKS-4b8614c36d1741088ed95fdc36ae319d" target="_blank" rel="noopener"
+&gt;TAK&amp;rsquo;s work&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;欢迎添加友链，只要你的站点没有太爆的内容我都会加上去&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>我参与的项目</title><link>https://collapse179.github.io/projects/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://collapse179.github.io/projects/</guid><description>&lt;p&gt;以下是我的参与的项目的链接。&lt;/p&gt;</description></item><item><title>Archives</title><link>https://collapse179.github.io/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://collapse179.github.io/archives/</guid><description/></item><item><title>Links</title><link>https://collapse179.github.io/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://collapse179.github.io/links/</guid><description>&lt;p&gt;只要你的网站内容不是特别爆并且添加了我的网站，那欢迎添加友链！&lt;/p&gt;
+&lt;p&gt;这是我的链接格式&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;links&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;Collapse179&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;description&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;Try my 120%&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;website&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;https://github.com&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Search</title><link>https://collapse179.github.io/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://collapse179.github.io/search/</guid><description/></item></channel></rss>
