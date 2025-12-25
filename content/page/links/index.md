@@ -1,10 +1,10 @@
 ---
 title: Links
 links:
-  - title: Buger404
-    description: Creating new forms of bug
-    website: https://buger404.github.io
-    image: buger404.jpg
+  # - title: Buger404
+  #   description: Creating a new art form with bugs(XD)
+  #   website: https://buger404.github.io
+  #   image: buger404.jpg
 
 comments: true
 ---
