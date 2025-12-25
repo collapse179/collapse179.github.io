@@ -3,6 +3,7 @@ title: LUA的语法、机制二三事
 date: 2025-12-25
 categories:
     - 热更新
+comments: true
 ---
 # Lua
 

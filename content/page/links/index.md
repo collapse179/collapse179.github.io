@@ -6,7 +6,7 @@ links:
     website: https://buger404.github.io
     image: buger404.jpg
 
-comments: false
+comments: true
 ---
 
 只要你的网站内容不是特别爆并且添加了我的网站，那欢迎添加友链！
@@ -17,7 +17,7 @@ comments: false
 links:
   - title: Collapse179
     description: Try my 120%
-    website: https://github.com
-    image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+    website: https://collapse179.github.io/
+    image: https://collapse179.github.io/img/avatar.png
 ```
 

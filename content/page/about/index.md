@@ -3,6 +3,7 @@ title: "关于我"
 description: "关于 Collapse179"
 date: 2025-12-25
 slug: "about"
+comments: true
 ---
 
 ## 关于我
