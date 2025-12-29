@@ -10,18 +10,6 @@
 
 <!-- Styles -->
 <style>
-    /* Table of Contents: Hide sub-levels by default */
-    #TableOfContents ul ul,
-    #TableOfContents ol ul,
-    #TableOfContents ul ol,
-    #TableOfContents ol ol {
-        display: none;
-    }
-
-    #TableOfContents .open {
-        display: block;
-    }
-
     /* Back to Top Button */
     #backTopBtn {
         display: none;
@@ -247,59 +235,6 @@
                 }
             }, 500);
         });
-
-        // --- TOC Auto-Collapse Logic ---
-        function initTocHide() {
-            const toc = document.querySelector("#TableOfContents");
-            if (!toc) return;
-
-            const updateToc = () => {
-                const activeElement = toc.querySelector(".active-class");
-                
-                // Close all open ULs first
-                toc.querySelectorAll(".open").forEach(ul => ul.classList.remove("open"));
-                
-                if (!activeElement) return;
-
-                // Expand children (sub-menu of current item)
-                const childUl = activeElement.querySelector("ul");
-                if (childUl) {
-                    childUl.classList.add("open");
-                }
-
-                // Expand parents
-                let ul = activeElement.parentElement;
-                while (ul && (ul.tagName === "UL" || ul.tagName === "OL")) {
-                    if (ul.id === "TableOfContents") break;
-                    ul.classList.add("open");
-                    ul = ul.parentElement.parentElement;
-                }
-            };
-
-            // Initial update
-            updateToc();
-
-            // Observe changes to active-class
-            const observer = new MutationObserver((mutations) => {
-                let shouldUpdate = false;
-                for (const mutation of mutations) {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        shouldUpdate = true;
-                        break;
-                    }
-                }
-                if (shouldUpdate) {
-                    updateToc();
-                }
-            });
-
-            observer.observe(toc, {
-                attributes: true,
-                subtree: true,
-                attributeFilter: ['class']
-            });
-        }
-        initTocHide();
 
         // --- Back to Top Button Logic ---
         function initScrollTop() {
