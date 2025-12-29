@@ -1,0 +1,29 @@
+{{- $content := .Text -}}
+{{- $alertType := "" -}}
+{{- /* Regex to find the alert tag at the beginning of the blockquote content */ -}}
+{{- $match := findRE `^<p>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]` $content 1 -}}
+
+{{- if $match -}}
+  {{- $tag := index $match 0 -}}
+  {{- /* Extract the type: [!CAUTION] -> caution */ -}}
+  {{- $type := $tag | replaceRE `^<p>\s*\[!|\]` "" | lower -}}
+  
+  {{- /* Map to CSS classes defined in custom.scss */ -}}
+  {{- $blockClass := printf "alert-%s" $type -}}
+  {{- if eq $type "warning" -}}{{ $blockClass = "alert-warn" }}{{- end -}}
+  {{- if eq $type "important" -}}{{ $blockClass = "alert-note" }}{{- end -}}
+  
+  {{- /* Remove the alert tag from the content. 
+         We replace the found tag (e.g. "<p>[!CAUTION]") with "<p>" to preserve the paragraph structure 
+         but remove the text. 
+  */ -}}
+  {{- $content = replace $content $tag "<p>" 1 -}}
+  
+  <blockquote class="alert {{ $blockClass }}">
+    {{ $content | safeHTML }}
+  </blockquote>
+{{- else -}}
+  <blockquote>
+    {{ .Text | safeHTML }}
+  </blockquote>
+{{- end -}}
