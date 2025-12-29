@@ -10,7 +10,11 @@ comments: true
 > **免责声明：此文章为记录自主学习malloc机制而留，并没有提交到任何评测机，使用的数据是来自Arthals提供的PKU的包，尚不清楚在别的测评数据的评测情况，请勿直接复制粘贴，后果自负。**
 
 ## 这个lab,要我们做什么？
-简单来说就是不用libc的malloc相关包函数实现一个简单的动态内存分配器。在PKU的版本中，要求我们更改``mm.c``文件来实现：``mm_init``、``malloc``、``free``、``realloc``、``calloc``这5个基础函数，但是通常来说，因为需要Debug，所以还需要实现``mm_checkheap``函数来检查自己堆分配是否和预期一样执行（~~反正我也没有助教团队给我测试分说是~~）。
+简单来说就是不用libc的malloc相关包函数实现一个简单的动态内存分配器,但是我们可以使用以下三个函数：
+ - ``void* mem_heap_lo()`` :指向堆底的指针
+ - ``void* mem_heap_hi()`` :指向堆顶的指针
+ - ``void* mem_sbrk(int incr)`` :扩展堆incr个单位，返回旧堆顶指针
+。在PKU的版本中，要求我们更改``mm.c``文件来实现：``mm_init``、``malloc``、``free``、``realloc``、``calloc``这5个基础函数，但是通常来说，因为需要Debug，所以还需要实现``mm_checkheap``函数来检查自己堆分配是否和预期一样执行（~~反正我也没有助教团队给我测试分说是~~）。
 这个版本的lab的评分公式是：
 $$
 P\left(U,T\right)=100\left.\left(0.6\min\left(1,\frac{U-0.7}{0.2}\right)+0.4\min\left(1,\frac{T-4000}{10000}\right)\right)\right.
@@ -44,28 +48,85 @@ $$其中U和T分别代表：
 首先书本已经给出了部分隐式链表的宏
 ```c
 /* Basic constants and macros */
-#define WSIZE       4       /* Word and header/footer size (bytes) */
-#define DSIZE       8       /* Double word size (bytes) */
-#define CHUNKSIZE   (1<<12) /* Extend heap by this amount (bytes) */
+#define WSIZE       4       /* 单字，同时也是头部/脚部的大小 */
+#define DSIZE       8       /* 双字 */
+#define CHUNKSIZE   (1<<12) /* 申请一片新的堆内存大小 */
 
-#define MAX(x, y) ((x) > (y)? (x) : (y))
+#define MAX(x, y) ((x) > (y)? (x) : (y)) //取max
 
-/* Pack a size and allocated bit into a word */
-#define PACK(size, alloc)  ((size) | (alloc))
+/* 将块大小信息和是否分配信息包装 */
+#define PACK(size, alloc)  ((size) | (alloc)) 
 
-/* Read and write a word at address p */
+/* 对p指向的内容的读写 */
 #define GET(p)       (*(unsigned int *)(p))
 #define PUT(p, val)  (*(unsigned int *)(p) = (val))
 
-/* Read the size and allocated fields from address p */
+/* 拿到P指向的块的大小 */
 #define GET_SIZE(p)  (GET(p) & ~0x7)
 #define GET_ALLOC(p) (GET(p) & 0x1)
 
-/* Given block ptr bp, compute address of its header and footer */
+/* 获得P块头部和脚部 */
 #define HDRP(bp)       ((char *)(bp) - WSIZE)
 #define FTRP(bp)       ((char *)(bp) + GET_SIZE(HDRP(bp)) - DSIZE)
 
-/* Given block ptr bp, compute address of next and previous blocks */
+/* 给到块的指针，计算前一个块的地址和后一个块的地址 */
 #define NEXT_BLP(bp)  ((char *)(bp) + GET_SIZE(((char *)(bp) - WSIZE)))
 #define PREV_BLP(bp)  ((char *)(bp) - GET_SIZE(((char *)(bp) - DSIZE)))
+```
+可以看到,隐式空闲链表已经辅助实现了单双字定义还有大小比对、获取指针内容、指针赋值、给定有效载荷获取头尾部、和上下两个块的尾部或者头部。对于PACK，因为显式空闲链表的倒数第二位还需要维护前一块是否被分配的信息，所以PACK还需要更改
+```C
+#define PACK(size, prev_alloc, alloc) ((size) | (prev_alloc) | (alloc))
+```
+为了方便查询倒数第二位，所以我们还可以定义一组宏来查询倒数第二位
+```c
+#define GET_PREV_ALLOC(p) (GET(p) & 0x2)
+```
+为了方便配合合并，释放等操作对头部位的修改，我们还可以定义一组宏:
+```c
+#define SET_ALLOC(p) (GET(p) |= 0x1)
+#define SET_FREE(p) (GET(p) &= ~0x1)
+#define SET_PREV_ALLOC(p) (GET(p) |= 0x2)
+#define SET_PREV_FREE(p) (GET(p) &= ~0x2)
+```
+因为显式空闲链表还需要维护一个数组来维护各个类的空闲链表的开头，但是LAB禁止使用全局数组，所以我们只能声明一个指针来来表示数组头部，为了方便取其余数组地址，我们可以定义宏来来实现类似于``[]``的操作
+```c
+// 地址和偏移量的转化
+#define ADDR_TO_OFFSET(p) ((p) ? (unsigned int)((char *)(p) - (char *)mem_heap_lo()) : 0)
+#define OFFSET_TO_ADDR(off) ((off) ? ((char *)mem_heap_lo() + (off)) : NULL)
+
+// 从堆起始位置访问空闲链表根节点的宏
+#define GET_ROOT(i) (OFFSET_TO_ADDR(*((unsigned int *)(mem_heap_lo()) + (i))))
+#define SET_ROOT(i, val) (*((unsigned int *)(mem_heap_lo()) + (i)) = ADDR_TO_OFFSET(val))
+```
+同时因为我们的双向链表存储的是偏移量而不是直接存储指针，所以我们也需要一个根据偏移来获取和赋值的宏
+```c
+// 指针压缩宏 
+// 存储相对于 mem_heap_lo() 的偏移量，而不是完整指针 
+#define GET_PTR_OFFSET(p) (*(unsigned int *)(p)) 
+#define PUT_PTR_OFFSET(p, val) (*(unsigned int *)(p) = (val))
+```
+至此，我们也是完成了第一步的流程
+## 该初始化了
+初始化要干的事情其实非常简单:
+ - 初始化空闲链表数组
+ - 在开头放上序言头部尾部
+ - 扩展CHUNKSIZE的堆大小然后在尾部放上特殊的结尾块
+我们先干前两件事：
+```c
+int list_size = NUM_CLASSES * WSIZE;
+
+    if ((heap_listp = mem_sbrk(ALIGN(list_size) + 4 * WSIZE)) == (void *)-1)
+        return -1;
+
+    for (int i = 0; i < NUM_CLASSES; i++) {
+        SET_ROOT(i, NULL);
+    }
+
+    heap_listp += ALIGN(list_size);
+
+    PUT(heap_listp, 0);                            // Alignment padding
+    PUT(heap_listp + (1 * WSIZE), PACK(DSIZE, 1, 1)); // Prologue header (Prev alloc, Curr alloc)
+    PUT(heap_listp + (2 * WSIZE), PACK(DSIZE, 1, 1)); // Prologue footer
+    PUT(heap_listp + (3 * WSIZE), PACK(0, 2, 1));     // Epilogue header (Prev alloc, Curr alloc)
+    heap_listp += (2 * WSIZE);
 ```

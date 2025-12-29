@@ -82,7 +82,7 @@
 
 /* KeywordNamespace */
 .chroma .kn {
-    color: $keyword-color;
+    color: #f92672;
 }
 
 /* KeywordPseudo */
@@ -127,7 +127,7 @@
 
 /* NameConstant */
 .chroma .no {
-    color: $text-color;
+    color: $keyword-color;
 }
 
 /* NameDecorator */
@@ -177,7 +177,7 @@
 
 /* NameTag */
 .chroma .nt {
-    color: $keyword-color;
+    color: #f92672;
 }
 
 /* NameVariable */
@@ -207,7 +207,7 @@
 
 /* Literal */
 .chroma .l {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralDate */
@@ -252,7 +252,7 @@
 
 /* LiteralStringEscape */
 .chroma .se {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralStringHeredoc */
@@ -287,47 +287,47 @@
 
 /* LiteralNumber */
 .chroma .m {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralNumberBin */
 .chroma .mb {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralNumberFloat */
 .chroma .mf {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralNumberHex */
 .chroma .mh {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralNumberInteger */
 .chroma .mi {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralNumberIntegerLong */
 .chroma .il {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* LiteralNumberOct */
 .chroma .mo {
-    color: $number-color;
+    color: #ae81ff;
 }
 
 /* Operator */
 .chroma .o {
-    color: $operator-color;
+    color: #f92672;
 }
 
 /* OperatorWord */
 .chroma .ow {
-    color: $operator-color;
+    color: #f92672;
 }
 
 /* Punctuation */
@@ -337,37 +337,37 @@
 
 /* Comment */
 .chroma .c {
-    color: $comment-color;
+    color: #75715e;
 }
 
 /* CommentHashbang */
 .chroma .ch {
-    color: $comment-color;
+    color: #75715e;
 }
 
 /* CommentMultiline */
 .chroma .cm {
-    color: $comment-color;
+    color: #75715e;
 }
 
 /* CommentSingle */
 .chroma .c1 {
-    color: $comment-color;
+    color: #75715e;
 }
 
 /* CommentSpecial */
 .chroma .cs {
-    color: $comment-color;
+    color: #75715e;
 }
 
 /* CommentPreproc */
 .chroma .cp {
-    color: $preproc-color;
+    color: #75715e;
 }
 
 /* CommentPreprocFile */
 .chroma .cpf {
-    color: $literal-color;
+    color: #75715e;
 }
 
 /* Generic */
