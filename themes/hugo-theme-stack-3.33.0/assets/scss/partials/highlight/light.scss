@@ -3,12 +3,16 @@
 *   https://xyproto.github.io/splash/docs/monokailight.html
 */
 
-$color: #272822;
+$color: #383a42;
 $background-color: #fafafa;
-$error-color: #960050;
-$keyword-color: #00a8c8;
-$text-color: #111111;
-$name-color: #75af00;
-$literal-color: #d88200;
+$error-color: #e45649;
+$keyword-color: #a626a4;
+$text-color: #383a42;
+$name-color: #383a42;
+$literal-color: #50a14f;
+$number-color: #4078f2;
+$comment-color: #a0a1a7;
+$operator-color: #a626a4;
+$preproc-color: #a626a4;
 
 @import "common.scss";
