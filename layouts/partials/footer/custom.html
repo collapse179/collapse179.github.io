@@ -250,25 +250,53 @@
 
         // --- TOC Auto-Collapse Logic ---
         function initTocHide() {
-            const toc = document.querySelector(".widget--toc");
+            const toc = document.querySelector("#TableOfContents");
             if (!toc) return;
 
-            window.addEventListener("scroll", function () {
-                const openUls = document.querySelectorAll(".open");
-                openUls.forEach(ul => ul.classList.remove("open"));
+            const updateToc = () => {
+                const activeElement = toc.querySelector(".active-class");
+                
+                // Close all open ULs first
+                toc.querySelectorAll(".open").forEach(ul => ul.classList.remove("open"));
+                
+                if (!activeElement) return;
 
-                const currentLi = document.querySelector(".active-class");
-                if (!currentLi) return;
-
-                if (currentLi.children.length > 1) {
-                    currentLi.children[1].classList.add("open");
+                // Expand children (sub-menu of current item)
+                const childUl = activeElement.querySelector("ul");
+                if (childUl) {
+                    childUl.classList.add("open");
                 }
 
-                let ul = currentLi.parentElement;
+                // Expand parents
+                let ul = activeElement.parentElement;
                 while (ul && (ul.tagName === "UL" || ul.tagName === "OL")) {
+                    if (ul.id === "TableOfContents") break;
                     ul.classList.add("open");
                     ul = ul.parentElement.parentElement;
                 }
+            };
+
+            // Initial update
+            updateToc();
+
+            // Observe changes to active-class
+            const observer = new MutationObserver((mutations) => {
+                let shouldUpdate = false;
+                for (const mutation of mutations) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        shouldUpdate = true;
+                        break;
+                    }
+                }
+                if (shouldUpdate) {
+                    updateToc();
+                }
+            });
+
+            observer.observe(toc, {
+                attributes: true,
+                subtree: true,
+                attributeFilter: ['class']
             });
         }
         initTocHide();
