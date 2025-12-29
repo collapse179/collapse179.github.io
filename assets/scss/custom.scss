@@ -53,6 +53,10 @@
     --card-separator-color: #cc3334;
     --blockquote-background-color: #ffeeef;
   }
+  .alert-caution {
+    --card-separator-color: #d32f2f;
+    --blockquote-background-color: #fdecea;
+  }
 }
 
 [data-scheme="dark"] {
@@ -71,5 +75,9 @@
   .alert-error {
     --card-separator-color: #880000;
     --blockquote-background-color: #450000;
+  }
+  .alert-caution {
+    --card-separator-color: #f44336;
+    --blockquote-background-color: #3e1f1f;
   }
 }
