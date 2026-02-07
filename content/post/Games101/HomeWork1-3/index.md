@@ -1,9 +1,10 @@
 ---
 title: 画一些三角形(Games101作业1-2)
-date: 2026-02-05
+date: 2026-02-07
 categories:
     - 从0开始的GAMES101
 comments: true
+math: true
 ---
 > [!CAUTION]
 >
