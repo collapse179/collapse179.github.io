@@ -18,6 +18,7 @@ comments: true
 #### 仿射变换
 实际上M和V矩阵都是让世界物体做仿射变换,那什么是仿射变换?
 简单来说就是平移+旋转+放缩三种变换的统称,我们用矩阵表示就是:
+
 $$
 \begin{bmatrix}
 x' \\
@@ -172,7 +173,7 @@ $$
 MVP=P\,V\,M
 $$
 最后顶点经过$MVP$变换,再做一次齐次除法(除以$w$)就可以得到屏幕上的点了。
-在了解这些前置知识之后，我们就可以开始作业1了![alt text](image-2.png)
+在了解这些前置知识之后，我们就可以开始作业1了![alt text](image-2.png)<br>
 发现作业的基础项只需要我们完成两个函数`get_model_matrix`与`get_projection_matrix`这两个函数一个对应模型的位移，另一个则对应透视投影，我们直接将上文中的公式代入，得到：
 ```cpp
 Eigen::Matrix4f get_model_matrix(float rotation_angle)
@@ -262,9 +263,9 @@ Eigen::Matrix4f get_rotation(Eigen::Vector3f axis, float angle) {
 调用也很简单：我们只需要:`Eigen::Matrix4f transformer=get_rotation(Eigen::Vector3f(0,0,1),rotation_angle);`就可以实现绕z轴旋转
 ## Homework2：采样和z-buffering
 第二个作业的最终效果如下图：
-![alt text](image-4.png)
+![alt text](image-4.png)<br>
 在上一个作业中，我们只完成了MVP矩阵，让这些图形全都在一个$[-1,1]^3$的标准立方体中，但实际上，我们最终是要把图形打到一个二维平面上，而采样就是在完成这一过程。
-我们知道，屏幕实际上就是一些像素整齐的排列成矩阵，我们把像素排列抽象成一个的矩阵![alt text](image-5.png)
+我们知道，屏幕实际上就是一些像素整齐的排列成矩阵，我们把像素排列抽象成一个的矩阵![alt text](image-5.png)<br>
 ### 视口变换（Viewport Transformation）
 经过MVP变换后，顶点位于$[-1,1]^3$的立方体中。为了将这些坐标映射到实际的屏幕像素坐标，我们需要进行视口变换。
 视口变换将NDC坐标映射到屏幕坐标系，其中屏幕左下角为$(0,0)$，右上角为$(width, height)$。视口矩阵$M_{viewport}$定义为：
@@ -316,7 +317,7 @@ $(0.25,0.25),(0.75,0.25),(0.25,0.75),(0.75,0.75)$。
 #### MSAA与后处理
 - MSAA：为每像素维护 N 个样本的深度/覆盖，着色器通常按片元执行一次，覆盖到被占据的样本；
 - FXAA/SMAA：基于最终图像的边缘检测与滤波，代价低、易集成，但属于近似方法，会影响锐利细节。
-了解这些前置知识之后，我们来到作业2:![alt text](image-6.png)我们直接实现提高项：实现一个2x2的ssaa![alt text](image-8.png)
+了解这些前置知识之后，我们来到作业2:![alt text](image-6.png)<br>我们直接实现提高项：实现一个2x2的ssaa![alt text](image-8.png)<br>
 我们先实现判断一个点是否在三角形内部的函数`insideTriangle`参考上文，我们使用重心坐标法实现:
 ```cpp
 Eigen::Vector3f computeBarycentric(float x, float y, const Vector3f *v) {
