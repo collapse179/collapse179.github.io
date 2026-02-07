@@ -20,27 +20,7 @@ math: true
 实际上M和V矩阵都是让世界物体做仿射变换,那什么是仿射变换?
 简单来说就是平移+旋转+放缩三种变换的统称,我们用矩阵表示就是:
 
-$$
-\begin{bmatrix}
-x' \\
-y' \\
-z' \\
-1
-\end{bmatrix}
-=
-\begin{bmatrix}
- &  &  & t_x \\
- & R &  & t_y \\
- &  &  & t_z \\
-0 & 0 & 0 & 1
-\end{bmatrix}
-\begin{bmatrix}
-x \\
-y \\
-z \\
-1
-\end{bmatrix}
-$$
+$$\begin{bmatrix}x' \\y' \\z' \\1\end{bmatrix}=\begin{bmatrix}R & \mathbf{t} \\\mathbf{0}^T & 1\end{bmatrix}\begin{bmatrix}x \\y \\z \\1\end{bmatrix}$$
 其中$R$表示旋转/缩放的部分,$t_x,t_y,t_z$是平移。
 为了更直观,我们把三种基本变换拆开写:
 平移矩阵:
