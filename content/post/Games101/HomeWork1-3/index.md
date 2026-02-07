@@ -11,8 +11,7 @@ math: true
 > **免责声明：此文章为记录自主学习图形学机制而留，并没有提交到BSS论坛，请勿直接复制粘贴，后果自负。**
 
 ## HomeWork1：MVP矩阵
-作业的最终效果如下：就是让我们画一个三角形，作业包已经完成了大部分的内容，所以我们最后只用填入模型的变换矩阵M和投影矩阵P
-![alt text](image.png)
+作业的最终效果如下：就是让我们画一个三角形，作业包已经完成了大部分的内容，所以我们最后只用填入模型的变换矩阵M和投影矩阵P<div align="center">![alt text](image.png)</div>
 ### 什么是MVP矩阵？
 在计算机图形学中，我们用向量表示一个点，用向量表示一个虚拟世界，而最后这些模型有些会进入我们的屏幕而有的不会，这就是经历了mvp矩阵变换的结果。
 顾名思义：m代表模型矩阵，用来表示模型的空间位置；v代表观测变换，表示我们用照相机产生的一个视野,为了方便实现,挪动相机实际上就是挪动整个世界而相机不动;P代表投影,类似于最后成像的方式
@@ -154,7 +153,7 @@ $$
 MVP=P\,V\,M
 $$
 最后顶点经过$MVP$变换,再做一次齐次除法(除以$w$)就可以得到屏幕上的点了。
-在了解这些前置知识之后，我们就可以开始作业1了![alt text](image-2.png)<br>
+在了解这些前置知识之后，我们就可以开始作业1了！<div align="center">![alt text](image-2.png)</div>
 发现作业的基础项只需要我们完成两个函数`get_model_matrix`与`get_projection_matrix`这两个函数一个对应模型的位移，另一个则对应透视投影，我们直接将上文中的公式代入，得到：
 ```cpp
 Eigen::Matrix4f get_model_matrix(float rotation_angle)
@@ -208,7 +207,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     return projection;
 }
 ```
-关于提高项：![alt text](image-3.png) 其实就是运用上文的罗德里格斯旋转公式，我们将公式代入得到：
+关于提高项：<div align="center">![alt text](image-3.png)</div>其实就是运用上文的罗德里格斯旋转公式，我们将公式代入得到：
 ```cpp
 Eigen::Matrix4f get_rotation(Eigen::Vector3f axis, float angle) {
 
@@ -243,10 +242,9 @@ Eigen::Matrix4f get_rotation(Eigen::Vector3f axis, float angle) {
 ```
 调用也很简单：我们只需要:`Eigen::Matrix4f transformer=get_rotation(Eigen::Vector3f(0,0,1),rotation_angle);`就可以实现绕z轴旋转
 ## Homework2：采样和z-buffering
-第二个作业的最终效果如下图：
-![alt text](image-4.png)<br>
+第二个作业的最终效果如下图：<div align="center">![alt text](image-4.png)</div>
 在上一个作业中，我们只完成了MVP矩阵，让这些图形全都在一个$[-1,1]^3$的标准立方体中，但实际上，我们最终是要把图形打到一个二维平面上，而采样就是在完成这一过程。
-我们知道，屏幕实际上就是一些像素整齐的排列成矩阵，我们把像素排列抽象成一个的矩阵![alt text](image-5.png)<br>
+我们知道，屏幕实际上就是一些像素整齐的排列成矩阵，我们把像素排列抽象成一个的矩阵<div align="center">![alt text](image-5.png)</div>
 ### 视口变换（Viewport Transformation）
 经过MVP变换后，顶点位于$[-1,1]^3$的立方体中。为了将这些坐标映射到实际的屏幕像素坐标，我们需要进行视口变换。
 视口变换将NDC坐标映射到屏幕坐标系，其中屏幕左下角为$(0,0)$，右上角为$(width, height)$。视口矩阵$M_{viewport}$定义为：
@@ -286,7 +284,8 @@ Z-Buffering是一种解决可见性问题的算法，用于确定哪个像素在
 - 对于每个像素，如果其插值深度小于缓冲区中的值，则更新缓冲区并绘制该像素。
 - 这样确保了近的物体覆盖远的物体。
 ### 反走样
-如果我们直接按照上述的朴素算法渲染图形，最后打在画面上的结果就会这样：![alt text](image-7.png)<br>这明显不是我们想要的效果！因此我们引入反走样
+如果我们直接按照上述的朴素算法渲染图形，最后打在画面上的结果就会这样：<div align="center">![alt text](image-7.png)</div>
+这明显不是我们想要的效果！因此我们引入反走样
 反走样（Anti-Aliasing，AA）用于减弱光栅化后出现的锯齿。常见策略有三类：
 - 超采样（SSAA）：对每个像素做多次子像素采样并平均，简单但计算量大；
 - 多重采样（MSAA）：对深度/覆盖做多样本采样、对颜色按片元计算，降低开销；
@@ -298,7 +297,8 @@ $(0.25,0.25),(0.75,0.25),(0.25,0.75),(0.75,0.75)$。
 #### MSAA与后处理
 - MSAA：为每像素维护 N 个样本的深度/覆盖，着色器通常按片元执行一次，覆盖到被占据的样本；
 - FXAA/SMAA：基于最终图像的边缘检测与滤波，代价低、易集成，但属于近似方法，会影响锐利细节。
-了解这些前置知识之后，我们来到作业2:![alt text](image-6.png)<br>我们直接实现提高项：实现一个2x2的ssaa![alt text](image-8.png)<br>
+了解这些前置知识之后，我们来到作业2:<div align="center">![alt text](image-6.png)</div>
+我们直接实现提高项：实现一个2x2的ssaa:<div align="center">![alt text](image-8.png)</div>
 我们先实现判断一个点是否在三角形内部的函数`insideTriangle`参考上文，我们使用重心坐标法实现:
 ```cpp
 Eigen::Vector3f computeBarycentric(float x, float y, const Vector3f *v) {
