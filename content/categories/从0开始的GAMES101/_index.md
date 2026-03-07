@@ -5,5 +5,5 @@ slug: "从0开始的GAMES101"
 image: "cover.jpg"
 style:
     background: "rgb(65, 73, 187)"
-    color: "#fff"
+    color: "#df17ce"
 ---
