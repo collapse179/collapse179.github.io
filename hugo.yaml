@@ -18,7 +18,7 @@ services:
         id:
 
 pagination:
-    pagerSize: 3
+    pagerSize: 8
 
 outputs:
     home:
@@ -247,6 +247,13 @@ menu:
           weight: 6
           params:
               icon: code
+
+        - identifier: steam
+          name: 摸鱼
+          url: /steam/
+          weight: 7
+          params:
+              icon: brand-steam
 
     social:
         - identifier: github

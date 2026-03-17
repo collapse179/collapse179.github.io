@@ -1,0 +1,73 @@
+<div class="steam-container">
+    {{ $steamId := "76561198813051984" }}
+    <!-- 为符合Hugo安全策略，需要使用 HUGO_ 环境变量前缀才允许被os.Getenv读取 -->
+    {{ $apiKey := os.Getenv "HUGO_STEAM_API_KEY" }}
+    
+    {{ if $apiKey }}
+        <!-- 1. 获取玩家个人资料信息 -->
+        {{ $profileUrl := printf "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s" $apiKey $steamId }}
+        {{ with resources.GetRemote $profileUrl }}
+            {{ $profileData := .Content | unmarshal }}
+            {{ if and $profileData.response $profileData.response.players }}
+                {{ with index $profileData.response.players 0 }}
+                <div class="steam-user-profile">
+                    <a href="{{ .profileurl }}" target="_blank" class="steam-avatar-link">
+                        <img src="{{ .avatarfull }}" alt="Steam Avatar" class="steam-avatar" />
+                    </a>
+                    <div class="steam-user-info">
+                        <div class="steam-user-header">
+                            <h2 class="steam-username"><a href="{{ .profileurl }}" target="_blank">{{ .personaname }}</a></h2>
+                        </div>
+                        <p class="steam-id-text">Steam ID: {{ $steamId }}</p>
+                    </div>
+                    <div class="steam-actions">
+                        <a href="steam://friends/add/{{ $steamId }}" class="steam-btn steam-btn-client">
+                            添加好友
+                        </a>
+                    </div>
+                </div>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+
+        <!-- 2. 获取玩家近期游玩信息 -->
+        {{ $url := printf "http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=%s&steamid=%s&format=json" $apiKey $steamId }}
+        
+        <!-- 使用 resources.GetRemote 获取数据 -->
+        {{ with resources.GetRemote $url }}
+            {{ $data := .Content | unmarshal }}
+            {{ if and $data.response $data.response.games }}
+                <p class="steam-updated">数据实时拉取自 Steam API</p>
+                <div class="steam-games-grid">
+                    {{ range $data.response.games }}
+                    <!-- 时间单位换算与 ID 转换 -->
+                    {{ $appId := int .appid }}
+                    {{ $p2w := printf "%.1f" (div (float .playtime_2weeks) 60.0) }}
+                    {{ $pall := printf "%.1f" (div (float .playtime_forever) 60.0) }}
+                    
+                    <a href="https://store.steampowered.com/app/{{ $appId }}" target="_blank" class="steam-game-card">
+                        <div class="steam-game-header">
+                            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/{{ $appId }}/header.jpg" 
+                                 onerror="this.onerror=null; this.src='https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/{{ $appId }}/capsule_616x353.jpg';" 
+                                 alt="{{ .name }}" loading="lazy" />
+                        </div>
+                        <div class="steam-game-info">
+                            <h3 class="steam-game-title">{{ .name }}</h3>
+                            <div class="steam-game-stats">
+                                <span class="recent-time">最近两周: <strong>{{ $p2w }}</strong> 小时</span>
+                                <span class="total-time">总计: {{ $pall }} 小时</span>
+                            </div>
+                        </div>
+                    </a>
+                    {{ end }}
+                </div>
+            {{ else }}
+                <p class="steam-empty">最近似乎没有游玩任何游戏，或是您的游玩时间设为了私密哦~</p>
+            {{ end }}
+        {{ else }}
+            <p class="steam-empty">无法连接到 Steam API 服务器。</p>
+        {{ end }}
+    {{ else }}
+        <p class="steam-empty">尚未配置 API KEY。请为系统或部署环境设置环境变量 <code>STEAM_API_KEY</code> 以获取游戏时长。</p>
+    {{ end }}
+</div>

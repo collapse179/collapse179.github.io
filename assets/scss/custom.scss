@@ -26,6 +26,17 @@
   margin: 0 !important;
   box-shadow: var(--shadow-l1) !important;
 }
+
+// ==== 卡片悬浮动效 ====
+.article-list article, .article-list--compact article, .article-card {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.article-list article:hover, .article-list--compact article:hover, .article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 12px rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
 .highlight:before {
   content: "";
   display: block;
@@ -34,6 +45,145 @@
   height: 18px;
   margin-top: -10px;
   margin-bottom: 10px;
+}
+
+// ==== Steam 卡片动效与排版 ====
+.steam-container {
+  margin-top: 2rem;
+}
+
+/* 顶部个人资料卡片 */
+.steam-user-profile {
+  display: flex;
+  align-items: center;
+  background: var(--card-background);
+  border-radius: var(--card-border-radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-l1);
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.steam-user-profile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 10px rgba(255, 255, 255, 0.05);
+}
+.steam-avatar-link {
+  display: block;
+  flex-shrink: 0;
+}
+.steam-avatar {
+  border-radius: 8px; /* 圆角或者50%变成纯圆 */
+  width: 80px;
+  height: 80px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.steam-avatar-link:hover .steam-avatar {
+  transform: scale(1.05);
+}
+.steam-user-info {
+  flex-grow: 1;
+}
+.steam-user-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.steam-username {
+  margin: 0 !important;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.steam-username a {
+  color: var(--body-text-color) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+.steam-username a:hover {
+  color: #39b7ea !important;
+}
+.steam-id-text {
+  margin: 0.25rem 0 0 0 !important;
+  font-size: 0.9rem;
+  color: var(--body-text-color);
+  opacity: 0.6;
+}
+
+.steam-actions {
+  display: flex;
+  gap: 10px;
+}
+.steam-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-decoration: none !important;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+.steam-btn-client {
+  background: #39b7ea;
+  color: #121212 !important;
+  box-shadow: 0 4px 8px rgba(57, 183, 234, 0.3);
+}
+.steam-btn-client:hover {
+  background: #4ccaff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(57, 183, 234, 0.4);
+}
+
+.steam-updated {
+  font-size: 0.85rem;
+  color: var(--body-text-color);
+  opacity: 0.7;
+  margin-bottom: 1.5rem;
+  text-align: right;
+}
+.steam-games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.steam-game-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-background);
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-l1);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-decoration: none !important;
+  color: var(--body-text-color) !important;
+}
+.steam-game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 12px rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+.steam-game-header img {
+  width: 100%;
+  aspect-ratio: 460 / 215;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  box-shadow: none;
+}
+.steam-game-info {
+  padding: 1rem;
+}
+.steam-game-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.steam-game-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--body-text-color);
+  opacity: 0.85;
 }
 
 [data-scheme="light"] {

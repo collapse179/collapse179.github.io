@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # 每天北京时间中午 12:00 (UTC 4:00) 自动触发构建更新Steam数据
+    - cron: '0 4 * * *'
   workflow_dispatch:
 
 # 设置 GITHUB_TOKEN 的权限，允许部署到 GitHub Pages
@@ -34,6 +37,8 @@ jobs:
           extended: true
 
       - name: Build with Hugo
+        env:
+          HUGO_STEAM_API_KEY: ${{ secrets.HUGO_STEAM_API_KEY }}
         run: hugo --minify
 
       - name: Upload artifact
